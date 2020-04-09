@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import ro.pub.cs.systems.eim.colocviu1_245.general.Constants;
+
 public class Colocviu1_245MainActivity extends AppCompatActivity {
 
     private Button addButton;
@@ -33,6 +35,17 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
                         bufferedText.setText(buffer);
                     }
                     break;
+                case R.id.Compute:
+                    Intent intent = new Intent(getApplicationContext(), Colocviu1_245SecondaryActivity.class);
+                    String[] nums = buffer.split("/+");
+                    int sum = 0;
+                    for (String s : nums)
+                        sum += Integer.parseInt(s);
+
+
+                    intent.putExtra(Constants.SUM, sum);
+                    startActivityForResult(intent, Constants.SECONDARY_ACTIVITY_REQUEST_CODE);
+                    break;
 
             }
 
@@ -46,6 +59,9 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
 
         addButton = (Button)findViewById(R.id.Add);
         addButton.setOnClickListener(buttonClickListener);
+
+        computeButton = (Button)findViewById(R.id.Compute);
+        computeButton.setOnClickListener(buttonClickListener);
 
         inputText = (EditText)findViewById(R.id.InputText);
         bufferedText = (EditText)findViewById(R.id.Disabledtext);
