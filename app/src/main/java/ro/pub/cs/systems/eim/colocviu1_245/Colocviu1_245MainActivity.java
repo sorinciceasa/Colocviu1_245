@@ -20,6 +20,8 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
     private EditText inputText;
     private EditText bufferedText;
 
+    private int savedSum = 0;
+
     private String buffer;
 
     private IntentFilter intentFilter = new IntentFilter();
@@ -82,7 +84,22 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putString(Constants.BUFFER, bufferedText.getText().toString());
         savedInstanceState.putString(Constants.INPUT, inputText.getText().toString());
+        savedInstanceState.putString(Constants.SAVED_SUM, "" + savedSum);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState.containsKey(Constants.BUFFER)) {
+            bufferedText.setText(savedInstanceState.getString(Constants.BUFFER));
+        } else {
+            bufferedText.setText("");
+        }
+        if (savedInstanceState.containsKey(Constants.INPUT)) {
+            bufferedText.setText(savedInstanceState.getString(Constants.INPUT));
+        } else {
+            inputText.setText("");
+        }
     }
 
     //afiseaza returnul intentiei

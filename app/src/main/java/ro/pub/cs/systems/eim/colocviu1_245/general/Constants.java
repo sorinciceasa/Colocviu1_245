@@ -12,6 +12,7 @@ public interface Constants {
 
     final public static String BUFFER = "buffer";
     final public static String INPUT = "input";
+    final public static String SAVED_SUM= "sum";
 
     final public static int SERVICE_STOPPED = 0;
     final public static int SERVICE_STARTED = 1;
