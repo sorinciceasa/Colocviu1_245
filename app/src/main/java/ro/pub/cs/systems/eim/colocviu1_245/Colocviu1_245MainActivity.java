@@ -22,7 +22,7 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
 
     private int savedSum = 0;
 
-    private String buffer;
+    private String buffer = "";
 
     private IntentFilter intentFilter = new IntentFilter();
 
@@ -35,8 +35,10 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
 
             switch(view.getId()) {
                 case R.id.Add:
+                    //bufferedText.setText(Constants.INPUT);
+
                     if(inputText.getText().toString() != null){
-                        if(buffer == null)
+                        if(bufferedText.getText().toString() == "" || buffer == null)
                             buffer = inputText.getText().toString();
                         else
                             buffer += "+" + inputText.getText().toString();
@@ -73,6 +75,23 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
         bufferedText = (EditText)findViewById(R.id.Disabledtext);
 
         buffer = null;
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(Constants.INPUT)) {
+                inputText.setText(savedInstanceState.getString(Constants.INPUT));
+            } else {
+                inputText.setText("");
+            }
+            if (savedInstanceState.containsKey(Constants.BUFFER)) {
+                bufferedText.setText(savedInstanceState.getString(Constants.BUFFER));
+            } else {
+                bufferedText.setText("");
+            }
+        } else {
+            inputText.setText("");
+            bufferedText.setText("");
+        }
+
 
         for (int index = 0; index < Constants.actionTypes.length; index++) {
             intentFilter.addAction(Constants.actionTypes[index]);
