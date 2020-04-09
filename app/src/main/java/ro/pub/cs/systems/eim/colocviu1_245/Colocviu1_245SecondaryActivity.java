@@ -26,10 +26,8 @@ public class Colocviu1_245SecondaryActivity extends AppCompatActivity {
         if (intent != null && intent.getExtras().containsKey(Constants.SUM)) {
             int sum = intent.getIntExtra(Constants.SUM, -1);
 
-            intent.setAction(Constants.actionTypes[0]);
-            intent.putExtra(Constants.BROADCAST_RECEIVER_EXTRA,
-                    new Date(System.currentTimeMillis()) + " " + sum);
-            this.context.sendBroadcast(intent);
+            setResult(sum, null);
+            finish();
         }
     }
 

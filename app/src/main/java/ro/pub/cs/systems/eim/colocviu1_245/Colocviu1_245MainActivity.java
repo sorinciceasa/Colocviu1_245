@@ -2,6 +2,7 @@ package ro.pub.cs.systems.eim.colocviu1_245;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -47,7 +48,6 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
                     for (String s : nums)
                         sum += Integer.parseInt(s);
 
-
                     intent.putExtra(Constants.SUM, sum);
                     startActivityForResult(intent, Constants.SECONDARY_ACTIVITY_REQUEST_CODE);
                     break;
@@ -78,10 +78,18 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(Constants.BUFFER, bufferedText.getText().toString());
+        savedInstanceState.putString(Constants.INPUT, inputText.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     //afiseaza returnul intentiei
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
+        //super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
             Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
         }

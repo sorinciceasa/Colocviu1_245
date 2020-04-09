@@ -10,6 +10,9 @@ public interface Constants {
             "ro.pub.cs.systems.eim.practicaltest01.sum",
     };
 
+    final public static String BUFFER = "buffer";
+    final public static String INPUT = "input";
+
     final public static int SERVICE_STOPPED = 0;
     final public static int SERVICE_STARTED = 1;
 
