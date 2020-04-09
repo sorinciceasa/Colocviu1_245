@@ -3,9 +3,12 @@ package ro.pub.cs.systems.eim.colocviu1_245;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,8 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
     private EditText bufferedText;
 
     private int savedSum = 0;
+
+    private int serviceStatus = Constants.SERVICE_STOPPED;
 
     private String buffer = "";
 
@@ -121,6 +126,28 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+    private class MessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(Constants.BROADCAST_RECEIVER_TAG, intent.getStringExtra(Constants.BROADCAST_RECEIVER_EXTRA));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, Colocviu1_245Service.class);
+        stopService(intent);
+        super.onDestroy();
+    }
+
     //afiseaza returnul intentiei
     @SuppressLint("MissingSuperCall")
     @Override
@@ -128,6 +155,15 @@ public class Colocviu1_245MainActivity extends AppCompatActivity {
         //super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
             Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
+            savedSum = resultCode;
+
+            if (savedSum > 10  && serviceStatus == Constants.SERVICE_STOPPED) {
+                Intent intent2 = new Intent(getApplicationContext(), Colocviu1_245Service.class);
+                intent.putExtra(Constants.SAVED_SUM, savedSum);
+                getApplicationContext().startService(intent);
+                serviceStatus = Constants.SERVICE_STARTED;
+            }
+
         }
     }
 }
